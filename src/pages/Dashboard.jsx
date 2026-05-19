@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
-const SLIDES = [
+export const SLIDES = [
   {
     id: 'maintenance',
     title: 'Maintenance',
@@ -72,6 +73,13 @@ export default function Dashboard() {
   const touchStartRef = useRef(null);
   const autoPlayRef = useRef(null);
   const dashboardRef = useRef(null);
+  const [hoveredTab, setHoveredTab] = useState(null);
+
+  const navItems = [
+    { id: 'home', label: 'Home', href: '#slider' },
+    { id: 'dashboard', label: 'Dashboard', onClick: () => navigate('/main-dashboard') },
+    { id: 'modules', label: 'Modules', href: '#modules' }
+  ];
 
   // Track scroll for navbar effect
   useEffect(() => {
@@ -156,10 +164,32 @@ export default function Dashboard() {
             <img src="/images/jsw_logo_clean.png" alt="JSW" className="nav-logo-img" />
           </div>
 
-          <div className="nav-links">
-            <a href="#slider" className="nav-link active">Home</a>
-            <a href="#quick-dashboard" className="nav-link">Dashboard</a>
-            <a href="#modules" className="nav-link">Modules</a>
+          <div className="nav-links" onMouseLeave={() => setHoveredTab(null)}>
+            {navItems.map((item) => (
+              <a
+                key={item.id}
+                href={item.href}
+                className="nav-link"
+                style={{ cursor: 'pointer', position: 'relative' }}
+                onClick={item.onClick}
+                onMouseEnter={() => setHoveredTab(item.id)}
+              >
+                {hoveredTab === item.id && (
+                  <motion.div
+                    layoutId="nav-pill"
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'rgba(255, 255, 255, 0.12)',
+                      borderRadius: '8px',
+                      zIndex: -1,
+                    }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <span style={{ position: 'relative', zIndex: 1 }}>{item.label}</span>
+              </a>
+            ))}
           </div>
 
           <div className="nav-profile">
@@ -234,14 +264,14 @@ export default function Dashboard() {
                 style={{ backgroundImage: `url(${slide.image})` }}
               />
               <div className="slide-overlay" />
-              
+
               <div className="slide-content">
                 <div className="slide-info">
                   <div className={`slide-badge ${currentSlide === index ? 'animate-in' : ''}`}>
                     <span className="badge-icon">{slide.icon}</span>
                     <span className="badge-text">{slide.title}</span>
                   </div>
-                  
+
                   <h2 className={`slide-title ${currentSlide === index ? 'animate-in' : ''}`}>
                     {slide.title}
                   </h2>
@@ -329,7 +359,15 @@ export default function Dashboard() {
       {/* ===== QUICK DASHBOARD ===== */}
       <section id="quick-dashboard" className="quick-dashboard" ref={dashboardRef}>
         <div className="dashboard-container">
-          <div className="section-header">
+
+          {/* Section header — slides in from left */}
+          <motion.div
+            className="section-header"
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          >
             <h2 className="section-title">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <rect x="3" y="3" width="7" height="7" />
@@ -340,11 +378,24 @@ export default function Dashboard() {
               Dashboard Overview
             </h2>
             <p className="section-subtitle">Quick access to all modules and real-time statistics</p>
-          </div>
+          </motion.div>
 
+          {/* Module cards — staggered fade+scale up */}
           <div id="modules" className="module-grid">
-            {SLIDES.map((slide) => (
-              <div className="module-card" key={slide.id}>
+            {SLIDES.map((slide, idx) => (
+              <motion.div
+                className="module-card"
+                key={slide.id}
+                initial={{ opacity: 0, y: 50, scale: 0.96 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{
+                  duration: 0.55,
+                  delay: idx * 0.15,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                whileHover={{ y: -8, transition: { duration: 0.25 } }}
+              >
                 <div className="module-card-bg" style={{ backgroundImage: `url(${slide.image})` }} />
                 <div className="module-card-overlay" />
                 <div className="module-card-content">
@@ -359,14 +410,19 @@ export default function Dashboard() {
                       </div>
                     ))}
                   </div>
-                  <button className="module-btn">
+                  <motion.button
+                    className="module-btn"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.97 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  >
                     Open Module
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                       <polyline points="9 6 15 12 9 18" />
                     </svg>
-                  </button>
+                  </motion.button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -375,33 +431,54 @@ export default function Dashboard() {
       {/* ===== FOOTER ===== */}
       <footer className="dashboard-footer">
         <div className="footer-inner">
-          <div className="footer-logo">
+          <motion.div
+            className="footer-logo"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+          >
             <img src="/images/jsw_logo_clean.png" alt="JSW" className="footer-logo-img" />
             <p className="footer-tagline">Better Everyday</p>
-          </div>
+          </motion.div>
           <div className="footer-links">
-            <div className="footer-col">
-              <h4>Modules</h4>
-              <a href="#">Maintenance</a>
-              <a href="#">Room Allocation</a>
-              <a href="#">Canteen</a>
-            </div>
-            <div className="footer-col">
-              <h4>Support</h4>
-              <a href="#">Help Center</a>
-              <a href="#">Contact IT</a>
-              <a href="#">FAQs</a>
-            </div>
-            <div className="footer-col">
-              <h4>Company</h4>
-              <a href="#">About JSW</a>
-              <a href="#">Careers</a>
-              <a href="#">Policies</a>
-            </div>
+            {[[
+              { label: 'Modules', links: ['Maintenance', 'Room Allocation', 'Canteen'] },
+              { label: 'Support', links: ['Help Center', 'Contact IT', 'FAQs'] },
+              { label: 'Company', links: ['About JSW', 'Careers', 'Policies'] },
+            ][0],
+            [
+              { label: 'Modules', links: ['Maintenance', 'Room Allocation', 'Canteen'] },
+              { label: 'Support', links: ['Help Center', 'Contact IT', 'FAQs'] },
+              { label: 'Company', links: ['About JSW', 'Careers', 'Policies'] },
+            ][1],
+            [
+              { label: 'Modules', links: ['Maintenance', 'Room Allocation', 'Canteen'] },
+              { label: 'Support', links: ['Help Center', 'Contact IT', 'FAQs'] },
+              { label: 'Company', links: ['About JSW', 'Careers', 'Policies'] },
+            ][2]].map((col, i) => (
+              <motion.div
+                className="footer-col"
+                key={col.label}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: i * 0.1, ease: 'easeOut' }}
+              >
+                <h4>{col.label}</h4>
+                {col.links.map((l) => <a href="#" key={l}>{l}</a>)}
+              </motion.div>
+            ))}
           </div>
-          <div className="footer-bottom">
+          <motion.div
+            className="footer-bottom"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
             <p>&copy; {new Date().getFullYear()} JSW Group. All rights reserved.</p>
-          </div>
+          </motion.div>
         </div>
       </footer>
     </div>
