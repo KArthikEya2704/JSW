@@ -4,6 +4,7 @@ dns.setServers(['8.8.8.8', '8.8.4.4']);
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const path = require('path'); // ✅ ADDED
 require('dotenv').config();
 
 const app = express();
@@ -20,43 +21,40 @@ const dprRoutes = require('./routes/dpr');
 app.use('/api/auth', authRoutes);
 app.use('/api/dpr', dprRoutes);
 
-// Health check route to verify DB status
+// Health check route
 app.get('/api/health', (req, res) => {
   const dbState = mongoose.connection.readyState;
   const states = { 0: 'disconnected', 1: 'connected', 2: 'connecting', 3: 'disconnecting' };
-  res.json({ 
-    server: 'running', 
+  res.json({
+    server: 'running',
     database: states[dbState] || 'unknown',
     dbReady: dbState === 1
   });
 });
 
-// Database Connection Strategy (Atlas first, automatic fallback to Local if blocked)
+// ✅ SERVE FRONTEND (VERY IMPORTANT)
+app.use(express.static(path.join(__dirname, "../dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../dist/index.html"));
+});
+
+// Database Connection
 const connectDB = async () => {
-  const localURI = "mongodb://127.0.0.1:27017/jsw_db";
-  
   try {
-    console.log("📡 Connecting to MongoDB Atlas cloud database...");
+    console.log("📡 Connecting to MongoDB Atlas...");
     await mongoose.connect(process.env.MONGODB_URI, {
-      serverSelectionTimeoutMS: 5000, // Faster failure detection for blocked networks
+      serverSelectionTimeoutMS: 5000,
     });
-    console.log("✅ MongoDB Atlas connected successfully!");
+    console.log("✅ MongoDB Atlas connected!");
   } catch (err) {
-    console.log("⚠️ MongoDB Atlas connection failed (likely port 27017 blocked by current network/ISP).");
-    console.log("🔄 Automatically falling back to Local MongoDB...");
-    try {
-      await mongoose.connect(localURI, {
-        serverSelectionTimeoutMS: 3000,
-      });
-      console.log("✅ Local MongoDB connected successfully!");
-    } catch (localErr) {
-      console.error("❌ Both MongoDB Atlas and Local MongoDB connections failed:", localErr.message);
-    }
+    console.error("❌ MongoDB Atlas connection failed:", err.message);
   }
 };
 
 connectDB();
 
+// Start server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });

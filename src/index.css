@@ -2127,7 +2127,7 @@ body {
 .md2-upload-card:hover .md2-upload-icon-wrapper {
   background: rgba(230, 57, 70, 0.12);
   border-color: rgba(230, 57, 70, 0.35);
-  transform: scale(1.08) rotate(5deg);
+  transform: scale(1.08);
 }
 
 .md2-upload-icon {
