@@ -40,6 +40,30 @@ app.get("*all", (req, res) => {
 });
 
 // Database Connection
+const User = require('./models/User');
+
+const seedAdminUserOnStartup = async () => {
+  try {
+    const existingUser = await User.findOne({ username: 'admin' });
+    if (existingUser) {
+      console.log("🌱 Admin user check: already exists.");
+      return;
+    }
+
+    const adminUser = new User({
+      username: 'admin',
+      password: 'jsw@2024',
+      name: 'Admin User',
+      role: 'Administrator'
+    });
+
+    await adminUser.save();
+    console.log("✅ Admin user successfully seeded on startup!");
+  } catch (error) {
+    console.error("❌ Error seeding admin user on startup:", error.message);
+  }
+};
+
 const connectDB = async () => {
   try {
     console.log("📡 Connecting to MongoDB Atlas...");
@@ -47,6 +71,9 @@ const connectDB = async () => {
       serverSelectionTimeoutMS: 5000,
     });
     console.log("✅ MongoDB Atlas connected!");
+    
+    // Auto-seed default admin account (free tier friendly)
+    await seedAdminUserOnStartup();
   } catch (err) {
     console.error("❌ MongoDB Atlas connection failed:", err.message);
   }
