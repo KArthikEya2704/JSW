@@ -180,8 +180,14 @@ body {
 }
 
 /* Darker text + placeholder when hovered or focused */
-.input-active { color: #1e293b !important; font-weight: 500 !important; }
-.input-active::placeholder { color: #64748b !important; }
+.input-active {
+  color: #1e293b !important;
+  font-weight: 500 !important;
+}
+
+.input-active::placeholder {
+  color: #64748b !important;
+}
 
 /* Error */
 .login-error {
@@ -297,12 +303,10 @@ body {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(
-      to right,
+    linear-gradient(to right,
       rgba(0, 0, 0, 0.78) 0%,
       rgba(0, 0, 0, 0.62) 40%,
-      rgba(0, 0, 0, 0.45) 100%
-    );
+      rgba(0, 0, 0, 0.45) 100%);
   pointer-events: none;
 }
 
@@ -417,6 +421,7 @@ body {
   gap: 10px;
   padding-bottom: 4px;
 }
+
 .login-carousel-dot {
   width: 9px;
   height: 9px;
@@ -427,10 +432,12 @@ body {
   padding: 0;
   transition: background 0.3s, transform 0.25s;
 }
+
 .login-carousel-dot:hover {
   background: rgba(255, 255, 255, 0.6);
   transform: scale(1.25);
 }
+
 .login-carousel-dot.active {
   background: #ffffff;
   transform: scale(1.35);
@@ -1800,7 +1807,8 @@ body {
 }
 
 .md2-split-item--active {
-  background: rgba(11, 77, 140, 0.12); /* JSW Steel Blue backdrop */
+  background: rgba(11, 77, 140, 0.12);
+  /* JSW Steel Blue backdrop */
   border: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   color: var(--white);
@@ -2011,28 +2019,36 @@ body {
   .md2-split-left {
     width: 64px;
   }
+
   .md2-split-left-header {
     display: none;
   }
+
   .md2-split-item-label {
     display: none;
   }
+
   .md2-split-item {
     justify-content: center;
     padding: 10px 8px;
   }
+
   .md2-chart-panel--large {
     min-width: 280px;
   }
+
   .md2-search-input {
     width: 120px;
   }
+
   .md2-content-header {
     padding: 16px 20px 12px;
   }
+
   .md2-bottom-bar {
     padding: 10px 20px;
   }
+
   .md2-split-right-body {
     padding: 18px;
   }
@@ -2042,50 +2058,63 @@ body {
   .md2-split-left {
     display: none;
   }
+
   .md2-topbar-title {
     display: none;
   }
+
   .md2-topbar-divider {
     display: none;
   }
+
   .md2-search-box {
     display: none;
   }
+
   .md2-action-btn span {
     display: none;
   }
+
   .md2-chart-panel,
   .md2-chart-panel--large,
   .md2-chart-panel--full {
     min-width: 100%;
   }
+
   .md2-content-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
     padding: 14px 16px 10px;
   }
+
   .md2-split-right-body {
     padding: 14px;
   }
+
   .md2-split-right-header {
     padding: 8px 16px;
   }
+
   .md2-bottom-bar {
     flex-direction: column;
     gap: 8px;
     padding: 10px 16px;
   }
+
   .md2-bottom-bar-left {
     flex-wrap: wrap;
   }
+
   .md2-kpi-strip {
     gap: 8px;
   }
+
   .md2-kpi-mini {
     min-width: 80px;
     padding: 10px 12px;
   }
+
   .md2-popup-panel {
     width: calc(100vw - 32px);
     top: 58px;
@@ -2316,7 +2345,8 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(10, 14, 39, 0.85); /* Deep dark theme backdrop */
+  background: rgba(10, 14, 39, 0.85);
+  /* Deep dark theme backdrop */
   backdrop-filter: blur(12px);
   z-index: 100;
   padding: 40px;
@@ -2406,9 +2436,12 @@ body {
 }
 
 @keyframes laser-sweep {
-  0%, 100% {
+
+  0%,
+  100% {
     top: 5%;
   }
+
   50% {
     top: 90%;
   }
@@ -2462,14 +2495,20 @@ body {
 }
 
 @keyframes terminal-flicker {
-  0% { opacity: 0.3; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0.3;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 /* ── Calendar Selector & Date Confirmation Modal ── */
 .md2-date-picker-container {
   position: relative;
-  margin-left: auto; /* Push calendar selector to the far right of header */
+  margin-left: auto;
+  /* Push calendar selector to the far right of header */
 }
 
 .md2-date-picker-trigger {
@@ -2691,18 +2730,28 @@ body {
 
 .md2-page {
   /* Cashmere & Soft Lavender Local CSS Variables Override */
-  --primary: #7C3AED;        /* Lavender */
-  --primary-light: #8B5CF6;  /* Soft Lavender */
-  --accent: #D946EF;         /* Mauve / Purple Accent */
+  --primary: #7C3AED;
+  /* Lavender */
+  --primary-light: #8B5CF6;
+  /* Soft Lavender */
+  --accent: #D946EF;
+  /* Mauve / Purple Accent */
   --accent-glow: rgba(217, 70, 239, 0.2);
-  --dark: #F5EFE6;           /* Cashmere Cream background */
-  --dark-card: #FFFFFF;      /* Pure White Card */
-  --dark-surface: #FFFFFF;   /* Pure White Card Surface */
-  --light: #1C1917;          /* Soft Obsidian Black text */
-  --gray: #71717A;           /* Zinc/slate grey for descriptions */
-  --white: #1C1917;          /* Primary text color (soft black) */
+  --dark: #F5EFE6;
+  /* Cashmere Cream background */
+  --dark-card: #FFFFFF;
+  /* Pure White Card */
+  --dark-surface: #FFFFFF;
+  /* Pure White Card Surface */
+  --light: #1C1917;
+  /* Soft Obsidian Black text */
+  --gray: #71717A;
+  /* Zinc/slate grey for descriptions */
+  --white: #1C1917;
+  /* Primary text color (soft black) */
   --glass-bg: rgba(255, 255, 255, 0.95);
-  --glass-border: #E8DFD2;   /* Soft beige border */
+  --glass-border: #E8DFD2;
+  /* Soft beige border */
   --shadow: 0 4px 20px rgba(45, 38, 33, 0.04);
 
   min-height: 100vh;
@@ -2791,8 +2840,10 @@ body {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  overflow: hidden !important; /* Keep height bounded for inner scrolling to work */
-  gap: 10px !important; /* Subtle spacing between the panel containers */
+  overflow: hidden !important;
+  /* Keep height bounded for inner scrolling to work */
+  gap: 10px !important;
+  /* Subtle spacing between the panel containers */
 }
 
 .md2-page .md2-split-left {
@@ -2822,7 +2873,8 @@ body {
 }
 
 .md2-page .md2-split-item--active {
-  background: rgba(124, 58, 237, 0.08) !important; /* light lavender active */
+  background: rgba(124, 58, 237, 0.08) !important;
+  /* light lavender active */
   color: var(--primary) !important;
   font-weight: 700 !important;
 }
@@ -2851,7 +2903,8 @@ body {
 .md2-page .md2-split-right-header {
   border: none !important;
   border-bottom: 1px solid var(--glass-border) !important;
-  background: #FAF6F0 !important; /* Cream background matching left panel header */
+  background: #FAF6F0 !important;
+  /* Cream background matching left panel header */
   border-radius: 0 !important;
 }
 
@@ -3101,8 +3154,10 @@ body {
   align-items: center;
   gap: 8px;
   padding: 8px 16px !important;
-  background: var(--primary) !important; /* Elegant lavender */
-  color: #FFFFFF !important;            /* Crisp white text */
+  background: var(--primary) !important;
+  /* Elegant lavender */
+  color: #FFFFFF !important;
+  /* Crisp white text */
   border: 1px solid var(--primary-light) !important;
   border-radius: 8px !important;
   font-size: 0.8rem !important;
@@ -3115,7 +3170,8 @@ body {
 .md2-page .md2-back-charts-btn:hover {
   background: var(--primary-light) !important;
   box-shadow: 0 6px 18px rgba(124, 58, 237, 0.3) !important;
-  transform: translateX(-4px) !important; /* Move left slightly to emphasize "back" action! */
+  transform: translateX(-4px) !important;
+  /* Move left slightly to emphasize "back" action! */
 }
 
 .md2-page .md2-back-charts-btn:active {
@@ -3128,7 +3184,8 @@ body {
 }
 
 .md2-page .md2-back-charts-btn:hover svg {
-  transform: translateX(-2px) !important; /* Animate arrow separately */
+  transform: translateX(-2px) !important;
+  /* Animate arrow separately */
 }
 
 .md2-page .md2-complaints-card {
@@ -3171,8 +3228,10 @@ body {
 
 /* ── Topbar centered Home button light theme overrides ── */
 .md2-page .md2-nav-home-btn {
-  background: var(--primary) !important; /* Premium Lavender background */
-  color: #FFFFFF !important;            /* Crisp white text for perfect readability */
+  background: var(--primary) !important;
+  /* Premium Lavender background */
+  color: #FFFFFF !important;
+  /* Crisp white text for perfect readability */
   border: 1px solid var(--primary-light) !important;
   box-shadow: 0 4px 14px rgba(124, 58, 237, 0.25) !important;
 }
@@ -3183,6 +3242,3 @@ body {
   box-shadow: 0 6px 18px rgba(124, 58, 237, 0.4) !important;
   transform: translateY(-1px) scale(1.03) !important;
 }
-
-
-
