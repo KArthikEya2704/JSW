@@ -244,6 +244,88 @@ const defaultComplaintsList = [
   }
 ];
 
+// Sheet 5 — Horticulture Default Data
+const defaultHorticultureManpower = [
+  { name: 'On Roll', actual: 17, present: 16 },
+  { name: 'Associates', actual: 13, present: 13 },
+  { name: 'Sri Ram Ent.', actual: 20, present: 14 },
+  { name: 'Pradhan Ent.', actual: 22, present: 19 },
+  { name: 'Maa Mangala', actual: 10, present: 11 },
+  { name: 'Maa Ramchandi', actual: 16, present: 5 },
+  { name: 'Bishnu Ent.', actual: 25, present: 17 },
+  { name: 'Maa Sarala Eng.', actual: 3, present: 3 },
+];
+
+const defaultHorticultureKPIs = {
+  plantsTownship: '0',
+  plantsPlantArea: '0',
+  plantsOutside: '0',
+  nurseryDetails: ['Forest Trees - 16000 Nos.', 'Shrubs - 20000 Nos.', 'Indoor - 2550 Nos.'],
+  maintenanceDetails: ['Total Green Cover = 175 Acre (708200 sq mtr)', 'A. Township - 80 Acre', 'B. Nursery, 700 Acre, outside - 33.5 Acre', 'C. Plant - 61.5 Acre']
+};
+
+// Sheet 6 — Plant Admin Default Data
+const defaultPlantAdminManpower = [
+  { name: 'Gen Maintenance', actual: 89, present: 83 },
+  { name: 'Road & Drain', actual: 79, present: 57 },
+  { name: 'Employee Mobility', actual: 80, present: 54 },
+  { name: 'Worker Colonies', actual: 29, present: 18 },
+];
+
+const defaultPlantAdminVehicles = [
+  { name: 'Road Sweeper', count: 7 },
+  { name: 'Hiwa', count: 3 },
+  { name: 'JCB', count: 3 },
+  { name: 'Tractor', count: 4 },
+  { name: 'Cesspool', count: 2 },
+];
+
+const defaultPlantAdminKPIs = {
+  totalEquipment: 11,
+  totalVehicles: 36
+};
+
+// Sheet 7 — Road & Drain Default Data
+const defaultRoadDrainOperatingHours = [
+  { name: 'Road Sweeper', hours: 44.2 },
+  { name: 'JCB', hours: 19.4 },
+  { name: 'Tractor / Farana', hours: 22.8 },
+  { name: 'Cesspool', hours: 35 },
+  { name: 'Hywa', hours: 33 },
+  { name: 'Camphor', hours: 47 }
+];
+
+const defaultRoadDrainShifts = [
+  { name: 'Shift- A', activeVehicles: 7 },
+  { name: 'Shift- B', activeVehicles: 4 },
+  { name: 'Shift- C', activeVehicles: 2 },
+  { name: 'Shift- G-R', activeVehicles: 15 }
+];
+
+const defaultRoadDrainKPIs = {
+  totalHours: 201.4,
+  totalKM: 0,
+  totalDiesel: 14.3
+};
+
+// Sheet 8 — Employee Mobility Default Data
+const defaultEmpMobilityBusData = [
+  { name: 'OD15M 5829', km: 58, fuel: 62 },
+  { name: 'OD15M 0751', km: 31, fuel: 72 },
+  { name: 'OR15K 4008', km: 19, fuel: 151 },
+  { name: 'OR15K 4010', km: 29, fuel: 82 },
+  { name: 'OD15A 5575', km: 31, fuel: 34 },
+  { name: 'OD15A 5980', km: 37, fuel: 33 },
+  { name: 'OD15A 5981', km: 65, fuel: 22 },
+  { name: 'OD15A 5982', km: 68, fuel: 88 }
+];
+
+const defaultEmpMobilityKPIs = {
+  totalBuses: 14,
+  totalKM: 641,
+  totalFuel: 809
+};
+
 // ─── Section Definitions ───
 const SECTIONS = [
   { id: 'guest-house', label: 'Guest House Occupancy', icon: '🏨' },
@@ -253,6 +335,10 @@ const SECTIONS = [
   { id: 'complaints', label: 'Maintenance Complaints', icon: '🔧' },
   { id: 'paint-work', label: 'Paint Work Progress', icon: '🎨' },
   { id: 'maint-manpower', label: 'Maintenance Manpower', icon: '🏗️' },
+  { id: 'horticulture', label: 'Horticulture', icon: '🌿' },
+  { id: 'plant-admin', label: 'Plant Admin', icon: '🏢' },
+  { id: 'road-drain', label: 'Road & Drain', icon: '🛣️' },
+  { id: 'employee-mobility', label: 'Employee Mobility', icon: '🚌' },
 ];
 
 // ─── Cashmere & Lavender Light Theme Tooltip Spacing ───
@@ -369,6 +455,16 @@ export default function MainDashboard() {
   const complaintsStatus = importedData?.complaintsStatus || defaultComplaintsStatus;
   const paintProgress = importedData?.paintProgress || defaultPaintProgress;
   const complaintsList = importedData?.complaintsList || defaultComplaintsList;
+  const horticultureManpower = importedData?.horticultureManpower || defaultHorticultureManpower;
+  const horticultureKPIs = importedData?.horticultureKPIs || defaultHorticultureKPIs;
+  const plantAdminManpower = importedData?.plantAdminManpower || defaultPlantAdminManpower;
+  const plantAdminVehicles = importedData?.plantAdminVehicles || defaultPlantAdminVehicles;
+  const plantAdminKPIs = importedData?.plantAdminKPIs || defaultPlantAdminKPIs;
+  const roadDrainOperatingHours = importedData?.roadDrainOperatingHours || defaultRoadDrainOperatingHours;
+  const roadDrainShifts = importedData?.roadDrainShifts || defaultRoadDrainShifts;
+  const roadDrainKPIs = importedData?.roadDrainKPIs || defaultRoadDrainKPIs;
+  const empMobilityBusData = importedData?.empMobilityBusData || defaultEmpMobilityBusData;
+  const empMobilityKPIs = importedData?.empMobilityKPIs || defaultEmpMobilityKPIs;
 
   const totalBreakfast = mealData.reduce((s, m) => s + (m.breakfast || 0), 0);
   const totalLunch = mealData.reduce((s, m) => s + (m.lunch || 0), 0);
@@ -485,6 +581,12 @@ export default function MainDashboard() {
     addSheet(complaintsPie, 'Complaints');
     addSheet(complaintsStatus, 'ComplaintsStatus');
     addSheet(paintProgress, 'PaintProgress');
+    addSheet(horticultureManpower, 'HorticultureManpower');
+    addSheet(plantAdminManpower, 'PlantAdminManpower');
+    addSheet(plantAdminVehicles, 'PlantAdminVehicles');
+    addSheet(roadDrainOperatingHours, 'RoadDrainHours');
+    addSheet(roadDrainShifts, 'RoadDrainShifts');
+    addSheet(empMobilityBusData, 'EmployeeMobility');
 
     XLSX.writeFile(wb, `Township_DPR_${selectedDate || new Date().toISOString().split('T')[0]}.xlsx`);
   };
@@ -499,7 +601,7 @@ export default function MainDashboard() {
 
   // ─── Visualization Renderer ────────────────────────────────────────
   const renderVisualization = () => {
-    if (!importedData && availableDates.length === 0) {
+    if (!importedData) {
       return (
         <motion.div
           key="upload-prompt"
@@ -1052,6 +1154,196 @@ export default function MainDashboard() {
                     : 0}%
                 </span>
                 <span className="md2-kpi-mini-label" style={{ fontWeight: 'bold' }}>Attendance Rate</span>
+              </div>
+            </div>
+          </motion.div>
+        );
+
+      case 'horticulture':
+        return (
+          <motion.div key="horticulture" {...contentVariants} className="md2-viz-content md2-viz-container">
+            <div className="md2-chart-grid">
+              <div className="md2-chart-panel md2-chart-panel--full">
+                <p className="md2-chart-label" style={{ fontWeight: 'bold', color: '#1C1917' }}>Actual vs Present by Category (Horticulture)</p>
+                <ResponsiveContainer width="100%" height={320}>
+                  <BarChart data={horticultureManpower} layout="vertical" barGap={4}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E8DFD2" />
+                    <XAxis type="number" tick={{ fill: '#1C1917', fontSize: 12, fontWeight: 'bold' }} stroke="#E8DFD2" />
+                    <YAxis dataKey="name" type="category" width={110} tick={{ fill: '#1C1917', fontSize: 11, fontWeight: 'bold' }} stroke="#E8DFD2" />
+                    <Tooltip {...TOOLTIP_STYLE} cursor={false} />
+                    <Legend wrapperStyle={{ color: '#1C1917', fontSize: 12, fontWeight: 'bold' }} />
+                    <Bar dataKey="actual" name="Actual" fill="#E8DFD2" stroke="#C2B8AA" radius={[0, 4, 4, 0]} />
+                    <Bar dataKey="present" name="Present" fill="#10B981" radius={[0, 4, 4, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            <div className="md2-kpi-strip">
+              <div className="md2-kpi-mini" style={{ borderLeft: '4px solid #10B981' }}>
+                <span className="md2-kpi-mini-value" style={{ color: '#10B981', fontSize: '1rem', whiteSpace: 'nowrap' }}>{horticultureKPIs.plantsTownship || '0'}</span>
+                <span className="md2-kpi-mini-label" style={{ fontWeight: 'bold' }}>Plants in Township</span>
+              </div>
+              <div className="md2-kpi-mini" style={{ borderLeft: '4px solid #10B981' }}>
+                <span className="md2-kpi-mini-value" style={{ color: '#10B981', fontSize: '1rem', whiteSpace: 'nowrap' }}>{horticultureKPIs.plantsPlantArea || '0'}</span>
+                <span className="md2-kpi-mini-label" style={{ fontWeight: 'bold' }}>Plants in Plant Area</span>
+              </div>
+              <div className="md2-kpi-mini" style={{ borderLeft: '4px solid #10B981' }}>
+                <span className="md2-kpi-mini-value" style={{ color: '#10B981', fontSize: '1rem', whiteSpace: 'nowrap' }}>{horticultureKPIs.plantsOutside || '0'}</span>
+                <span className="md2-kpi-mini-label" style={{ fontWeight: 'bold' }}>Plants Outside</span>
+              </div>
+            </div>
+            <div className="md2-kpi-strip" style={{ marginTop: '16px' }}>
+              <div className="md2-kpi-mini" style={{ borderLeft: '4px solid #D946EF', flex: 1 }}>
+                <span className="md2-kpi-mini-label" style={{ fontWeight: 'bold', marginBottom: '8px' }}>Nursery Plants (Category Wise)</span>
+                {horticultureKPIs.nurseryDetails?.length > 0 ? (
+                  horticultureKPIs.nurseryDetails.map((detail, idx) => (
+                    <div key={idx} style={{ fontSize: '0.85rem', color: '#1C1917', marginBottom: '4px' }}>• {detail}</div>
+                  ))
+                ) : (
+                  <div style={{ fontSize: '0.85rem', color: '#71717A' }}>No nursery details available</div>
+                )}
+              </div>
+              <div className="md2-kpi-mini" style={{ borderLeft: '4px solid #7C3AED', flex: 1 }}>
+                <span className="md2-kpi-mini-label" style={{ fontWeight: 'bold', marginBottom: '8px' }}>Maintenance Area</span>
+                {horticultureKPIs.maintenanceDetails?.length > 0 ? (
+                  horticultureKPIs.maintenanceDetails.map((detail, idx) => (
+                    <div key={idx} style={{ fontSize: '0.85rem', color: '#1C1917', marginBottom: '4px' }}>• {detail}</div>
+                  ))
+                ) : (
+                  <div style={{ fontSize: '0.85rem', color: '#71717A' }}>No maintenance details available</div>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        );
+
+      case 'plant-admin':
+        return (
+          <motion.div key="plant-admin" {...contentVariants} className="md2-viz-content md2-viz-container">
+            <div className="md2-chart-grid">
+              <div className="md2-chart-panel md2-chart-panel--full">
+                <p className="md2-chart-label" style={{ fontWeight: 'bold', color: '#1C1917' }}>Actual vs Present by Sub-Department (Plant Admin)</p>
+                <ResponsiveContainer width="100%" height={280}>
+                  <BarChart data={plantAdminManpower} barGap={4}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E8DFD2" />
+                    <XAxis dataKey="name" tick={{ fill: '#1C1917', fontSize: 11, fontWeight: 'bold' }} stroke="#E8DFD2" />
+                    <YAxis tick={{ fill: '#1C1917', fontSize: 12, fontWeight: 'bold' }} stroke="#E8DFD2" />
+                    <Tooltip {...TOOLTIP_STYLE} cursor={false} />
+                    <Legend wrapperStyle={{ color: '#1C1917', fontSize: 12, fontWeight: 'bold' }} />
+                    <Bar dataKey="actual" name="Actual" fill="#E8DFD2" stroke="#C2B8AA" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="present" name="Present" fill="#0EA5E9" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            <div className="md2-chart-grid" style={{ marginTop: '20px' }}>
+              <div className="md2-chart-panel md2-chart-panel--full">
+                <p className="md2-chart-label" style={{ fontWeight: 'bold', color: '#1C1917' }}>Equipment & Vehicle Utilization</p>
+                <ResponsiveContainer width="100%" height={260}>
+                  <BarChart data={plantAdminVehicles} layout="vertical" barGap={4}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E8DFD2" />
+                    <XAxis type="number" tick={{ fill: '#1C1917', fontSize: 12, fontWeight: 'bold' }} stroke="#E8DFD2" />
+                    <YAxis dataKey="name" type="category" width={110} tick={{ fill: '#1C1917', fontSize: 11, fontWeight: 'bold' }} stroke="#E8DFD2" />
+                    <Tooltip {...TOOLTIP_STYLE} cursor={false} />
+                    <Bar dataKey="count" name="Count" fill="#F59E0B" radius={[0, 4, 4, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            <div className="md2-kpi-strip" style={{ marginTop: '16px' }}>
+              <div className="md2-kpi-mini" style={{ borderLeft: '4px solid #0EA5E9' }}>
+                <span className="md2-kpi-mini-value" style={{ color: '#0EA5E9' }}>{plantAdminManpower.reduce((s, m) => s + m.actual, 0)}</span>
+                <span className="md2-kpi-mini-label" style={{ fontWeight: 'bold' }}>Total Manpower (Actual)</span>
+              </div>
+              <div className="md2-kpi-mini" style={{ borderLeft: '4px solid #F59E0B' }}>
+                <span className="md2-kpi-mini-value" style={{ color: '#F59E0B' }}>{plantAdminKPIs.totalEquipment}</span>
+                <span className="md2-kpi-mini-label" style={{ fontWeight: 'bold' }}>Total Equipment</span>
+              </div>
+              <div className="md2-kpi-mini" style={{ borderLeft: '4px solid #D946EF' }}>
+                <span className="md2-kpi-mini-value" style={{ color: '#D946EF' }}>{plantAdminKPIs.totalVehicles}</span>
+                <span className="md2-kpi-mini-label" style={{ fontWeight: 'bold' }}>Total Vehicles</span>
+              </div>
+            </div>
+          </motion.div>
+        );
+
+      case 'road-drain':
+        return (
+          <motion.div key="road-drain" {...contentVariants} className="md2-viz-content md2-viz-container">
+            <div className="md2-chart-grid">
+              <div className="md2-chart-panel md2-chart-panel--full">
+                <p className="md2-chart-label" style={{ fontWeight: 'bold', color: '#1C1917' }}>Total Operating Hours by Vehicle Type</p>
+                <ResponsiveContainer width="100%" height={280}>
+                  <BarChart data={roadDrainOperatingHours} layout="vertical" barGap={4}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E8DFD2" />
+                    <XAxis type="number" tick={{ fill: '#1C1917', fontSize: 12, fontWeight: 'bold' }} stroke="#E8DFD2" />
+                    <YAxis dataKey="name" type="category" width={130} tick={{ fill: '#1C1917', fontSize: 11, fontWeight: 'bold' }} stroke="#E8DFD2" />
+                    <Tooltip {...TOOLTIP_STYLE} cursor={false} formatter={(v) => `${v} Hrs`} />
+                    <Bar dataKey="hours" name="Total Hours" fill="#10B981" radius={[0, 4, 4, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            <div className="md2-chart-grid" style={{ marginTop: '20px' }}>
+              <div className="md2-chart-panel md2-chart-panel--full">
+                <p className="md2-chart-label" style={{ fontWeight: 'bold', color: '#1C1917' }}>Active Vehicles per Shift</p>
+                <ResponsiveContainer width="100%" height={260}>
+                  <BarChart data={roadDrainShifts} barGap={4}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E8DFD2" />
+                    <XAxis dataKey="name" tick={{ fill: '#1C1917', fontSize: 11, fontWeight: 'bold' }} stroke="#E8DFD2" />
+                    <YAxis tick={{ fill: '#1C1917', fontSize: 12, fontWeight: 'bold' }} stroke="#E8DFD2" />
+                    <Tooltip {...TOOLTIP_STYLE} cursor={false} />
+                    <Bar dataKey="activeVehicles" name="Active Vehicles" fill="#3B82F6" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            <div className="md2-kpi-strip" style={{ marginTop: '16px' }}>
+              <div className="md2-kpi-mini" style={{ borderLeft: '4px solid #10B981' }}>
+                <span className="md2-kpi-mini-value" style={{ color: '#10B981' }}>{roadDrainKPIs.totalHours}</span>
+                <span className="md2-kpi-mini-label" style={{ fontWeight: 'bold' }}>Total Operating Hours</span>
+              </div>
+              <div className="md2-kpi-mini" style={{ borderLeft: '4px solid #3B82F6' }}>
+                <span className="md2-kpi-mini-value" style={{ color: '#3B82F6' }}>{roadDrainKPIs.totalKM}</span>
+                <span className="md2-kpi-mini-label" style={{ fontWeight: 'bold' }}>Total K.M. Logged</span>
+              </div>
+              <div className="md2-kpi-mini" style={{ borderLeft: '4px solid #F59E0B' }}>
+                <span className="md2-kpi-mini-value" style={{ color: '#F59E0B' }}>{roadDrainKPIs.totalDiesel} L</span>
+                <span className="md2-kpi-mini-label" style={{ fontWeight: 'bold' }}>Total Diesel Issued</span>
+              </div>
+            </div>
+          </motion.div>
+        );
+
+      case 'employee-mobility':
+        return (
+          <motion.div key="employee-mobility" {...contentVariants} className="md2-viz-content md2-viz-container">
+            <div className="md2-chart-grid">
+              <div className="md2-chart-panel md2-chart-panel--full">
+                <p className="md2-chart-label" style={{ fontWeight: 'bold', color: '#1C1917' }}>Total KM Logged per Bus</p>
+                <ResponsiveContainer width="100%" height={380}>
+                  <BarChart data={empMobilityBusData} layout="vertical" barGap={4}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E8DFD2" />
+                    <XAxis type="number" tick={{ fill: '#1C1917', fontSize: 12, fontWeight: 'bold' }} stroke="#E8DFD2" />
+                    <YAxis dataKey="name" type="category" width={110} tick={{ fill: '#1C1917', fontSize: 11, fontWeight: 'bold' }} stroke="#E8DFD2" />
+                    <Tooltip {...TOOLTIP_STYLE} cursor={false} formatter={(v) => `${v} KM`} />
+                    <Bar dataKey="km" name="Total KM" fill="#8B5CF6" radius={[0, 4, 4, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            <div className="md2-kpi-strip" style={{ marginTop: '16px' }}>
+              <div className="md2-kpi-mini" style={{ borderLeft: '4px solid #8B5CF6' }}>
+                <span className="md2-kpi-mini-value" style={{ color: '#8B5CF6' }}>{empMobilityKPIs.totalBuses}</span>
+                <span className="md2-kpi-mini-label" style={{ fontWeight: 'bold' }}>Active Buses Logged</span>
+              </div>
+              <div className="md2-kpi-mini" style={{ borderLeft: '4px solid #10B981' }}>
+                <span className="md2-kpi-mini-value" style={{ color: '#10B981' }}>{empMobilityKPIs.totalKM}</span>
+                <span className="md2-kpi-mini-label" style={{ fontWeight: 'bold' }}>Total Combined KM</span>
+              </div>
+              <div className="md2-kpi-mini" style={{ borderLeft: '4px solid #F43F5E' }}>
+                <span className="md2-kpi-mini-value" style={{ color: '#F43F5E' }}>{empMobilityKPIs.totalFuel} L</span>
+                <span className="md2-kpi-mini-label" style={{ fontWeight: 'bold' }}>Total Fuel Refilled</span>
               </div>
             </div>
           </motion.div>
