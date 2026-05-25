@@ -355,7 +355,10 @@ export default function MainDashboard() {
   const profileMenuRef = useRef(null);
   const dateDropdownRef = useRef(null);
 
-  const [activeSection, setActiveSection] = useState('guest-house');
+  const [activeSection, setActiveSection] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('section') || 'guest-house';
+  });
   const [sectionsPanelOpen, setSectionsPanelOpen] = useState(false);
   const [importedData, setImportedData] = useState(null);
   const [importFileName, setImportFileName] = useState('');
@@ -643,6 +646,11 @@ export default function MainDashboard() {
                 <div className="md2-req-item">🚗 Fleet Movement</div>
                 <div className="md2-req-item">🔧 Maintenance</div>
                 <div className="md2-req-item">🎨 Paint Progress</div>
+                <div className="md2-req-item">🏗️ Maint. Manpower</div>
+                <div className="md2-req-item">🌿 Horticulture</div>
+                <div className="md2-req-item">🏢 Plant Admin</div>
+                <div className="md2-req-item">🛣️ Road & Drain</div>
+                <div className="md2-req-item">🚌 Emp. Mobility</div>
               </div>
             </div>
           </div>

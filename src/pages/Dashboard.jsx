@@ -295,7 +295,13 @@ export default function Dashboard() {
                   {/* Go to Dashboard Button */}
                   <button
                     className={`slide-cta ${currentSlide === index ? 'animate-in' : ''}`}
-                    onClick={() => navigate('/main-dashboard')}
+                    onClick={() => {
+                      let section = 'guest-house';
+                      if (slide.id === 'maintenance') section = 'complaints';
+                      else if (slide.id === 'room-allocation') section = 'guest-house';
+                      else if (slide.id === 'canteen') section = 'meal-report';
+                      navigate(`/main-dashboard?section=${section}`);
+                    }}
                   >
                     <span>GO TO DASHBOARD</span>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -385,6 +391,14 @@ export default function Dashboard() {
                   ease: [0.22, 1, 0.36, 1],
                 }}
                 whileHover={{ y: -8, transition: { duration: 0.25 } }}
+                onClick={() => {
+                  let section = 'guest-house';
+                  if (slide.id === 'maintenance') section = 'complaints';
+                  else if (slide.id === 'room-allocation') section = 'guest-house';
+                  else if (slide.id === 'canteen') section = 'meal-report';
+                  navigate(`/main-dashboard?section=${section}`);
+                }}
+                style={{ cursor: 'pointer' }}
               >
                 <div className="module-card-bg" style={{ backgroundImage: `url(${slide.image})` }} />
                 <div className="module-card-overlay" />
@@ -421,21 +435,32 @@ export default function Dashboard() {
             <p className="footer-tagline">Better Everyday</p>
           </motion.div>
           <div className="footer-links">
-            {[[
-              { label: 'Modules', links: ['Maintenance', 'Room Allocation', 'Canteen'] },
-              { label: 'Support', links: ['Help Center', 'Contact IT', 'FAQs'] },
-              { label: 'Company', links: ['About JSW', 'Careers', 'Policies'] },
-            ][0],
-            [
-              { label: 'Modules', links: ['Maintenance', 'Room Allocation', 'Canteen'] },
-              { label: 'Support', links: ['Help Center', 'Contact IT', 'FAQs'] },
-              { label: 'Company', links: ['About JSW', 'Careers', 'Policies'] },
-            ][1],
-            [
-              { label: 'Modules', links: ['Maintenance', 'Room Allocation', 'Canteen'] },
-              { label: 'Support', links: ['Help Center', 'Contact IT', 'FAQs'] },
-              { label: 'Company', links: ['About JSW', 'Careers', 'Policies'] },
-            ][2]].map((col, i) => (
+            {[
+              {
+                label: 'Modules',
+                links: [
+                  { text: 'Maintenance', href: '/main-dashboard?section=complaints' },
+                  { text: 'Room Allocation', href: '/main-dashboard?section=guest-house' },
+                  { text: 'Canteen', href: '/main-dashboard?section=meal-report' }
+                ]
+              },
+              {
+                label: 'Support',
+                links: [
+                  { text: 'Help Center', href: '/help' },
+                  { text: 'Contact Us', href: 'mailto:23cs2033@rgipt.ac.in' },
+                  { text: 'FAQs', href: '/help' }
+                ]
+              },
+              {
+                label: 'Company',
+                links: [
+                  { text: 'About JSW', href: 'https://www.jswsteel.in/', target: '_blank' },
+                  { text: 'Careers', href: 'https://www.jsw.in/careers/', target: '_blank' },
+                  { text: 'Policies', href: 'https://www.jswsteel.in/investors/policies/', target: '_blank' }
+                ]
+              },
+            ].map((col, i) => (
               <motion.div
                 className="footer-col"
                 key={col.label}
@@ -445,7 +470,16 @@ export default function Dashboard() {
                 transition={{ duration: 0.5, delay: i * 0.1, ease: 'easeOut' }}
               >
                 <h4>{col.label}</h4>
-                {col.links.map((l) => <a href="#" key={l}>{l}</a>)}
+                {col.links.map((l) => (
+                  <a
+                    href={l.href}
+                    key={l.text}
+                    target={l.target || '_self'}
+                    rel={l.target === '_blank' ? 'noopener noreferrer' : undefined}
+                  >
+                    {l.text}
+                  </a>
+                ))}
               </motion.div>
             ))}
           </div>

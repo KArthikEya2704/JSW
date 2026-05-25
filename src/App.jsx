@@ -5,10 +5,20 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 import MainDashboard from './pages/MainDashboard';
 
+import HelpCenter from './pages/HelpCenter';
+
 function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route
+        path="/help"
+        element={
+          <ProtectedRoute>
+            <HelpCenter />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/dashboard"
         element={

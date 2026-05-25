@@ -485,17 +485,17 @@ body {
   right: 0;
   z-index: 1000;
   padding: 12px 0;
-  background: rgba(10, 14, 39, 0.6);
+  background: rgba(135, 206, 250, 0.6); /* Light Blue */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   transition: var(--transition);
 }
 
 .nav-scrolled {
-  background: rgba(10, 14, 39, 0.92);
+  background: rgba(135, 206, 250, 0.92); /* Light Blue */
   padding: 8px 0;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
 }
 
 .nav-inner {
@@ -521,21 +521,22 @@ body {
 
 .nav-link {
   padding: 8px 18px;
-  color: var(--gray);
+  color: #000; /* Black text */
   text-decoration: none;
   font-size: 0.88rem;
-  font-weight: 500;
+  font-weight: 600; /* Slightly bolder for readability */
   border-radius: 8px;
   transition: var(--transition);
 }
 
 .nav-link.active {
-  color: var(--white);
-  background: rgba(255, 255, 255, 0.08);
+  color: #000;
+  background: rgba(0, 0, 0, 0.08); /* Darker background on active */
 }
 
 .nav-link:hover {
-  color: var(--white);
+  color: #000;
+  background: rgba(0, 0, 0, 0.05); /* Hover effect */
 }
 
 .nav-profile {
@@ -705,7 +706,7 @@ body {
 .slide-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(10, 14, 39, 0.88) 0%, rgba(10, 14, 39, 0.65) 40%, rgba(0, 51, 102, 0.5) 100%);
+  background: linear-gradient(135deg, rgba(10, 14, 39, 0.5) 0%, rgba(10, 14, 39, 0.3) 40%, rgba(0, 51, 102, 0.2) 100%);
 }
 
 .slide-content {
@@ -986,7 +987,8 @@ body {
 /* ===== QUICK DASHBOARD ===== */
 .quick-dashboard {
   padding: 100px 32px;
-  background: linear-gradient(180deg, var(--dark) 0%, var(--dark-card) 100%);
+  background: #f8fafc;
+  color: #0f172a;
 }
 
 .dashboard-container {
@@ -1050,7 +1052,7 @@ body {
 .module-card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(10, 14, 39, 0.4) 0%, rgba(10, 14, 39, 0.92) 60%);
+  background: linear-gradient(180deg, rgba(10, 14, 39, 0.1) 0%, rgba(10, 14, 39, 0.7) 60%);
 }
 
 .module-card-content {
@@ -1058,6 +1060,7 @@ body {
   z-index: 2;
   padding: 32px;
   margin-top: auto;
+  color: #ffffff;
 }
 
 .module-icon {
@@ -1137,9 +1140,10 @@ body {
 
 /* ===== FOOTER ===== */
 .dashboard-footer {
-  background: var(--dark-card);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: #f1f5f9;
+  border-top: 1px solid #cbd5e1;
   padding: 60px 32px 30px;
+  color: #0f172a;
 }
 
 .footer-inner {
@@ -1184,25 +1188,25 @@ body {
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 8px;
-  color: var(--white);
+  color: #0f172a;
 }
 
 .footer-col a {
-  color: var(--gray);
+  color: #475569;
   text-decoration: none;
   font-size: 0.85rem;
   transition: var(--transition);
 }
 
 .footer-col a:hover {
-  color: var(--white);
+  color: #0ea5e9;
 }
 
 .footer-bottom {
   width: 100%;
   margin-top: 20px;
   padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid #cbd5e1;
   text-align: center;
 }
 
