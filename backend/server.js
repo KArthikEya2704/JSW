@@ -17,9 +17,11 @@ app.use(express.json());
 // Routes
 const authRoutes = require('./routes/auth');
 const dprRoutes = require('./routes/dpr');
+const ticketRoutes = require('./routes/tickets'); // ✅ ADDED
 
 app.use('/api/auth', authRoutes);
 app.use('/api/dpr', dprRoutes);
+app.use('/api/tickets', ticketRoutes); // ✅ ADDED
 
 // Health check route
 app.get('/api/health', (req, res) => {
@@ -52,7 +54,7 @@ const seedAdminUserOnStartup = async () => {
 
     const adminUser = new User({
       username: 'admin',
-      password: 'jsw@2024',
+      password: 'jsw@2027',
       name: 'Admin User',
       role: 'Administrator'
     });

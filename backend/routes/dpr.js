@@ -238,7 +238,75 @@ const DEFAULT_SECTIONS = {
       pendingDetails: 'Work under progress',
       feedback: ''
     }
-  ]
+  ],
+  horticultureManpower: [
+    { name: 'On Roll', actual: 17, present: 16 },
+    { name: 'Associates', actual: 13, present: 13 },
+    { name: 'Sri Ram Ent.', actual: 20, present: 14 },
+    { name: 'Pradhan Ent.', actual: 22, present: 19 },
+    { name: 'Maa Mangala', actual: 10, present: 11 },
+    { name: 'Maa Ramchandi', actual: 16, present: 5 },
+    { name: 'Bishnu Ent.', actual: 25, present: 17 },
+    { name: 'Maa Sarala Eng.', actual: 3, present: 3 },
+  ],
+  horticultureKPIs: {
+    plantsTownship: 'NIL',
+    plantsPlantArea: 'NIL',
+    plantsOutside: 'NIL',
+    nurseryDetails: ['Forest Trees - 16000 Nos.', 'Shrubs - 20000 Nos.', 'Indoor - 2550 Nos.'],
+    maintenanceDetails: ['Total Green Cover = 175 Acre (708200 sq mtr)', 'A. Township - 80 Acre', 'B. Nursery, 700 Acre, outside - 33.5 Acre', 'C. Plant - 61.5 Acre']
+  },
+  plantAdminManpower: [
+    { name: 'Gen Maintenance', actual: 89, present: 83 },
+    { name: 'Road & Drain', actual: 79, present: 57 },
+    { name: 'Employee Mobility', actual: 80, present: 54 },
+    { name: 'Worker Colonies', actual: 29, present: 18 },
+  ],
+  plantAdminVehicles: [
+    { name: 'Road Sweeper', count: 7 },
+    { name: 'Hiwa', count: 3 },
+    { name: 'JCB', count: 3 },
+    { name: 'Tractor', count: 4 },
+    { name: 'Cesspool', count: 2 },
+  ],
+  plantAdminKPIs: {
+    totalEquipment: 11,
+    totalVehicles: 36
+  },
+  roadDrainOperatingHours: [
+    { name: 'Road Sweeper', hours: 44.2 },
+    { name: 'JCB', hours: 19.4 },
+    { name: 'Tractor / Farana', hours: 22.8 },
+    { name: 'Cesspool', hours: 35 },
+    { name: 'Hywa', hours: 33 },
+    { name: 'Camphor', hours: 47 }
+  ],
+  roadDrainShifts: [
+    { name: 'Shift- A', activeVehicles: 7 },
+    { name: 'Shift- B', activeVehicles: 4 },
+    { name: 'Shift- C', activeVehicles: 2 },
+    { name: 'Shift- G-R', activeVehicles: 15 }
+  ],
+  roadDrainKPIs: {
+    totalHours: 201.4,
+    totalKM: 0,
+    totalDiesel: 14.3
+  },
+  empMobilityBusData: [
+    { name: 'OD15M 5829', km: 58, fuel: 62 },
+    { name: 'OD15M 0751', km: 31, fuel: 72 },
+    { name: 'OR15K 4008', km: 19, fuel: 151 },
+    { name: 'OR15K 4010', km: 29, fuel: 82 },
+    { name: 'OD15A 5575', km: 31, fuel: 34 },
+    { name: 'OD15A 5980', km: 37, fuel: 33 },
+    { name: 'OD15A 5981', km: 65, fuel: 22 },
+    { name: 'OD15A 5982', km: 68, fuel: 88 }
+  ],
+  empMobilityKPIs: {
+    totalBuses: 14,
+    totalKM: 641,
+    totalFuel: 809
+  }
 };
 
 // --- F&B Single-Tab Sheet Parser ---
@@ -586,6 +654,244 @@ function parseMaintSingleTab(rows) {
   return parsed;
 }
 
+// --- Horticulture Single-Tab Sheet Parser ---
+function parseHorticultureTab(rows) {
+  const parsed = {
+    horticultureManpower: [],
+    horticultureKPIs: {
+      plantsTownship: 'NIL',
+      plantsPlantArea: 'NIL',
+      plantsOutside: 'NIL',
+      nurseryDetails: [],
+      maintenanceDetails: []
+    }
+  };
+
+  let activeSection = null;
+
+  rows.forEach((row) => {
+    if (!row) return;
+    const col1 = String(row[1] || '').trim();
+    const col2 = String(row[2] || '').trim();
+    const actual = Number(row[3]) || 0;
+    const present = Number(row[4]) || 0;
+    
+    // Manpower
+    if (col1.includes('Total no. of On Roll Employees')) {
+      parsed.horticultureManpower.push({ name: 'On Roll', actual, present });
+    } else if (col1.includes('Total no. of Associate Employees')) {
+      parsed.horticultureManpower.push({ name: 'Associates', actual, present });
+    } else if (col1.includes('Sri Ram Enterprises') || col1.includes('Sri Ram Ent')) {
+      parsed.horticultureManpower.push({ name: 'Sri Ram Ent.', actual, present });
+    } else if (col1.includes('Pradhan Enterprises') || col1.includes('Pradhan Ent')) {
+      parsed.horticultureManpower.push({ name: 'Pradhan Ent.', actual, present });
+    } else if (col1.includes('Maa Mangala')) {
+      parsed.horticultureManpower.push({ name: 'Maa Mangala', actual, present });
+    } else if (col1.includes('Maa Ramchandi')) {
+      parsed.horticultureManpower.push({ name: 'Maa Ramchandi', actual, present });
+    } else if (col1.includes('Bishnu Enterprise')) {
+      parsed.horticultureManpower.push({ name: 'Bishnu Ent.', actual, present });
+    } else if (col1.includes('Maa Sarala Engineering')) {
+      parsed.horticultureManpower.push({ name: 'Maa Sarala Eng.', actual, present });
+    }
+    
+    // Track active section for merged cells
+    if (col1) {
+      activeSection = col1;
+    }
+
+    if (!activeSection) return;
+
+    // KPIs
+    if (activeSection.includes('No. of Plants planted in Township') && col2) {
+      parsed.horticultureKPIs.plantsTownship = col2;
+      activeSection = null;
+    } else if (activeSection.includes('No. of Plants planted in Plant Area') && col2) {
+      parsed.horticultureKPIs.plantsPlantArea = col2;
+      activeSection = null;
+    } else if (activeSection.includes('No. of plants planted outside') && col2) {
+      parsed.horticultureKPIs.plantsOutside = col2;
+      activeSection = null;
+    } else if (activeSection.includes('Total no of plants (Category wise) at nursery') && col2) {
+      parsed.horticultureKPIs.nurseryDetails.push(col2);
+    } else if (activeSection.includes('Total Maintenance area') && col2) {
+      parsed.horticultureKPIs.maintenanceDetails.push(col2);
+    }
+  });
+
+  return parsed;
+}
+
+// --- Plant Admin Single-Tab Sheet Parser ---
+function parsePlantAdminTab(rows) {
+  const parsed = {
+    plantAdminManpower: [],
+    plantAdminVehicles: [],
+    plantAdminKPIs: {
+      totalEquipment: 0,
+      totalVehicles: 0
+    }
+  };
+
+  rows.forEach((row) => {
+    if (!row) return;
+    const col1 = String(row[1] || '').trim();
+    const col2 = String(row[2] || '').trim();
+
+    if (col1.includes('Manpower Total')) {
+      parsed.plantAdminManpower.push({ name: 'Gen Maintenance', actual: Number(row[3]) || 0, present: Number(row[5]) || 0 });
+      parsed.plantAdminManpower.push({ name: 'Road & Drain', actual: Number(row[9]) || 0, present: Number(row[14]) || 0 });
+      parsed.plantAdminManpower.push({ name: 'Employee Mobility', actual: Number(row[17]) || 0, present: Number(row[19]) || 0 });
+      parsed.plantAdminManpower.push({ name: 'Worker Colonies', actual: Number(row[24]) || 0, present: Number(row[26]) || 0 });
+    } else if (col1.includes('Total no of equipment') || col2.includes('Total no of equipment')) {
+      let total = 0;
+      for (let i = 3; i < 35; i++) { total += Number(row[i]) || 0; }
+      parsed.plantAdminKPIs.totalEquipment += total;
+    } else if (col1.includes('Total no of Vehicles') || col2.includes('Total no of Vehicles')) {
+      let total = 0;
+      for (let i = 3; i < 35; i++) { total += Number(row[i]) || 0; }
+      parsed.plantAdminKPIs.totalVehicles += total;
+    } else if (['Road Sweeper', 'Hiwa', 'JCB', 'Tractor', 'Cesspool', 'Water Tanker'].includes(col2)) {
+      let count = 0;
+      for (let i = 3; i < 35; i++) { count += Number(row[i]) || 0; }
+      if (count > 0) {
+        parsed.plantAdminVehicles.push({ name: col2, count });
+      }
+    }
+  });
+
+  return parsed;
+}
+
+// --- Road & Drain Single-Tab Sheet Parser ---
+function parseRoadDrainTab(rows) {
+  const parsed = {
+    roadDrainOperatingHours: [],
+    roadDrainShifts: [],
+    roadDrainKPIs: {
+      totalHours: 0,
+      totalKM: 0,
+      totalDiesel: 0
+    }
+  };
+
+  const vehicleHoursMap = {};
+  const shiftMap = {};
+
+  let currentShift = 'Unknown Shift';
+
+  rows.forEach((row, i) => {
+    if (!row || i < 2) return; // skip headers
+    const colA = String(row[0] || '').trim();
+    const colB = String(row[1] || '').trim(); // Vehicle Name
+    
+    // Shift row detection: colA has text starting with "Shift-"
+    if (colA.startsWith('Shift-') || colB.startsWith('Shift-')) {
+       currentShift = colA.startsWith('Shift-') ? colA.split('(')[0].trim() : colB.split('(')[0].trim();
+       if (!shiftMap[currentShift]) shiftMap[currentShift] = 0;
+       return;
+    }
+
+    if (colA === 'Sr.' || colA === 'No' || colA === 'Vehicle Name' || colB === 'Vehicle Name') return;
+    
+    // It's a data row if there's a vehicle name
+    if (colB && colB.length > 2) {
+       const hours = Number(row[7]) || 0; // Total Hrs
+       const km = Number(row[10]) || 0; // Total K.M.
+       const diesel = Number(row[11]) || 0; // Diesel
+
+       parsed.roadDrainKPIs.totalHours += hours;
+       parsed.roadDrainKPIs.totalKM += km;
+       parsed.roadDrainKPIs.totalDiesel += diesel;
+
+       if (hours > 0 || km > 0 || diesel > 0 || colB) {
+         shiftMap[currentShift] = (shiftMap[currentShift] || 0) + 1;
+         
+         // Aggregate vehicle hours
+         let vehicleType = 'Other';
+         const nameLower = colB.toLowerCase();
+         if (nameLower.includes('sweeper')) vehicleType = 'Road Sweeper';
+         else if (nameLower.includes('jcb')) vehicleType = 'JCB';
+         else if (nameLower.includes('tractor') || nameLower.includes('farana')) vehicleType = 'Tractor / Farana';
+         else if (nameLower.includes('cess')) vehicleType = 'Cesspool';
+         else if (nameLower.includes('hywa')) vehicleType = 'Hywa';
+         else if (nameLower.includes('camphor')) vehicleType = 'Camphor';
+         else vehicleType = colB.split(' ')[0]; // fallback to first word
+
+         vehicleHoursMap[vehicleType] = (vehicleHoursMap[vehicleType] || 0) + hours;
+       }
+    }
+  });
+
+  parsed.roadDrainOperatingHours = Object.keys(vehicleHoursMap).map(k => ({
+    name: k,
+    hours: Number(vehicleHoursMap[k].toFixed(2))
+  }));
+
+  parsed.roadDrainShifts = Object.keys(shiftMap).map(k => ({
+    name: k,
+    activeVehicles: shiftMap[k]
+  }));
+
+  parsed.roadDrainKPIs.totalHours = Number(parsed.roadDrainKPIs.totalHours.toFixed(2));
+  parsed.roadDrainKPIs.totalKM = Number(parsed.roadDrainKPIs.totalKM.toFixed(2));
+  parsed.roadDrainKPIs.totalDiesel = Number(parsed.roadDrainKPIs.totalDiesel.toFixed(2));
+
+  return parsed;
+}
+
+// --- Employee Mobility Single-Tab Sheet Parser ---
+function parseEmpMobilityTab(rows) {
+  const parsed = {
+    empMobilityBusData: [],
+    empMobilityKPIs: {
+      totalBuses: 0,
+      totalKM: 0,
+      totalFuel: 0
+    }
+  };
+
+  rows.forEach((row, i) => {
+    if (!row || i < 2) return; // skip headers
+    const colA = String(row[0] || '').trim();
+    const colB = String(row[1] || '').trim(); // Vehicle No
+    const colW = String(row[22] || '').trim(); // Refilling Status
+    const colX = Number(row[23]) || 0; // Total KM
+    
+    // Check if it's a valid bus row. Usually Sr No is numeric.
+    if (!isNaN(colA) && colA !== '' && colB && colB.length > 3) {
+      let fuelStr = colW.toLowerCase();
+      let fuelLiters = 0;
+      // parse "QTY (62 Ltr)" or "QTY(62Ltr)"
+      if (fuelStr.includes('qty') || fuelStr.includes('ltr')) {
+         const match = fuelStr.match(/\(?(\d+)\s*ltr/);
+         if (match && match[1]) {
+           fuelLiters = Number(match[1]);
+         } else {
+           const match2 = fuelStr.match(/\d+/g);
+           if (match2 && match2.length > 1) {
+             fuelLiters = Number(match2[match2.length - 1]);
+           } else if (match2) {
+             fuelLiters = Number(match2[0]);
+           }
+         }
+      }
+
+      parsed.empMobilityBusData.push({
+         name: colB.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim(),
+         km: colX,
+         fuel: fuelLiters
+      });
+
+      parsed.empMobilityKPIs.totalBuses++;
+      parsed.empMobilityKPIs.totalKM += colX;
+      parsed.empMobilityKPIs.totalFuel += fuelLiters;
+    }
+  });
+
+  return parsed;
+}
+
 // @route   POST /api/dpr/import
 // @desc    Upload, Validate, Merge & Upsert parsed Township DPR sheet to MongoDB
 // @access  Public
@@ -637,6 +943,22 @@ router.post('/import', (req, res, next) => {
       } else if (nameNorm.includes('maintenanc') || firstRowText.includes('township maintenance')) {
         console.log(`📡 Ingesting Sheet [${sheetName}] as Maintenance Report for date ${reportDate}...`);
         parsedData = { ...parsedData, ...parseMaintSingleTab(rows) };
+        processedAny = true;
+      } else if (nameNorm.includes('horticulture') || firstRowText.includes('horticulture department')) {
+        console.log(`📡 Ingesting Sheet [${sheetName}] as Horticulture Report for date ${reportDate}...`);
+        parsedData = { ...parsedData, ...parseHorticultureTab(rows) };
+        processedAny = true;
+      } else if (nameNorm.includes('plant admin') || firstRowText.includes('plant admin department')) {
+        console.log(`📡 Ingesting Sheet [${sheetName}] as Plant Admin Report for date ${reportDate}...`);
+        parsedData = { ...parsedData, ...parsePlantAdminTab(rows) };
+        processedAny = true;
+      } else if (nameNorm.includes('road & drain') || nameNorm.includes('road and drain') || firstRowText.includes('road & drain')) {
+        console.log(`📡 Ingesting Sheet [${sheetName}] as Road & Drain Report for date ${reportDate}...`);
+        parsedData = { ...parsedData, ...parseRoadDrainTab(rows) };
+        processedAny = true;
+      } else if (nameNorm.includes('employee mobility') || firstRowText.includes('employee mobility')) {
+        console.log(`📡 Ingesting Sheet [${sheetName}] as Employee Mobility Report for date ${reportDate}...`);
+        parsedData = { ...parsedData, ...parseEmpMobilityTab(rows) };
         processedAny = true;
       }
     });
